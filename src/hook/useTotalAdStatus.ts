@@ -3,7 +3,7 @@ import { QueryOptions } from '../api/httpRequest';
 import { DailyAdStatus } from '../interfaces/database';
 import totalAdStatusModel from '../models/totalAdStatusModel';
 import { useCache } from './useCache';
-import { differenceInCalendarDays, getMonth, lastDayOfMonth, startOfMonth, subDays, subMonths } from 'date-fns';
+import { differenceInCalendarDays, subDays, subWeeks } from 'date-fns';
 
 type DailyAdStatusWithPrev = {
   prev: DailyAdStatus[] | null;
@@ -27,8 +27,8 @@ function useTotalAdStatus(queryOptions?: QueryOptions) {
             lte: subDays(queryOptions.lte, differenceInDays),
           }
         : {
-            gte: startOfMonth(subMonths(queryOptions.gte, 1)),
-            lte: lastDayOfMonth(subMonths(queryOptions.gte, 1)),
+            gte: subWeeks(queryOptions.gte, 1),
+            lte: subWeeks(queryOptions.lte, 1),
           };
 
     const currWeekQuery = queryOptions;
